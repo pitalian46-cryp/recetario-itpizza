@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italian Pizza & Pasta — Recetario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --cream:#F5F0E8;
+  --parchment:#EDE4D0;
+  --gold:#9B7E46;
+  --gold-light:#C4A05A;
+  --dark-olive:#2C3320;
+  --olive:#4A5E35;
+  --brown:#5C3D1E;
+  --red:#8B1A1A;
+  --ink:#1A1A0F;
+  --white:#FEFCF7;
+  --border:#C4A05A;
+  --shadow:rgba(28,20,8,0.18);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Lora',serif;
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── TEXTURE BACKGROUND ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── PAGES ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ═══════════════════════════════════
+   NAVBAR
+═══════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:200;
+  background:rgba(245,240,232,0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:2px solid var(--gold);
+  padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.nav-logo{
+  font-family:'Cinzel',serif;
+  font-size:1.1rem;letter-spacing:5px;
+  color:var(--dark-olive);
+  cursor:pointer;text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo span{color:var(--gold);font-size:1.4rem}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a,.nav-links button{
+  font-family:'Lora',serif;font-size:.78rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--olive);text-decoration:none;
+  transition:color .3s;background:none;border:none;cursor:pointer;padding:0;
+}
+.nav-links a:hover,.nav-links button:hover{color:var(--gold)}
+
+/* ═══════════════════════════════════
+   HERO — PAGE HOME
+═══════════════════════════════════ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:100px 40px 80px;
+  z-index:1;overflow:hidden;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(155,126,70,.08) 0%, transparent 70%),
+    var(--cream);
+}
+
+/* Decorative corner ornaments */
+.hero::before,.hero::after{
+  content:'';position:absolute;
+  width:200px;height:200px;
+  border:1px solid rgba(155,126,70,.2);
+}
+.hero::before{top:80px;left:40px;border-right:none;border-bottom:none}
+.hero::after{bottom:40px;right:40px;border-left:none;border-top:none}
+
+.hero-ornament{
+  position:absolute;
+  font-size:2rem;opacity:.12;
+  animation:floatLeaf 7s ease-in-out infinite;
+}
+.hero-ornament:nth-child(1){top:15%;left:5%;animation-delay:0s}
+.hero-ornament:nth-child(2){top:20%;right:7%;animation-delay:2s}
+.hero-ornament:nth-child(3){bottom:25%;left:4%;animation-delay:4s}
+.hero-ornament:nth-child(4){bottom:20%;right:6%;animation-delay:1s}
+.hero-ornament:nth-child(5){top:50%;left:2%;animation-delay:3s}
+.hero-ornament:nth-child(6){top:45%;right:3%;animation-delay:5s}
+
+@keyframes floatLeaf{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-14px) rotate(10deg)}
+}
+
+/* Logo ring */
+.logo-container{
+  position:relative;width:260px;height:260px;
+  margin:0 auto 48px;
+  animation:fadeIn 1.2s ease both;
+}
+.logo-ring{
+  position:absolute;inset:-10px;border-radius:50%;
+  background:conic-gradient(var(--gold) 0deg,var(--gold-light) 60deg,#D4AF7A 120deg,var(--gold) 200deg,var(--gold-light) 280deg,var(--gold) 360deg);
+  animation:rotateSlow 25s linear infinite;
+}
+.logo-ring-mask{position:absolute;inset:6px;border-radius:50%;background:var(--cream)}
+.logo-img{
+  position:absolute;inset:0;border-radius:50%;
+  object-fit:cover;width:100%;height:100%;
+}
+.logo-img-placeholder{
+  position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(135deg,var(--parchment),var(--cream));
+  display:flex;align-items:center;justify-content:center;
+  font-size:5rem;
+}
+
+@keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-eyebrow{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:.95rem;letter-spacing:4px;color:var(--gold);
+  margin-bottom:16px;
+  animation:fadeUp 1s ease .4s both;
+}
+.hero-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(3rem,7vw,5.5rem);font-weight:700;
+  letter-spacing:12px;color:var(--dark-olive);
+  line-height:1;
+  animation:fadeUp 1s ease .6s both;
+}
+.hero-subtitle{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.5rem;color:var(--red);
+  margin-top:8px;
+  animation:fadeUp 1s ease .8s both;
+}
+
+/* Ornamental divider */
+.ornament-divider{
+  display:flex;align-items:center;gap:16px;
+  margin:28px auto;width:fit-content;
+}
+.ornament-divider::before,.ornament-divider::after{
+  content:'';display:block;
+  width:80px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold));
+}
+.ornament-divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.ornament-diamond{
+  width:8px;height:8px;
+  background:var(--gold);transform:rotate(45deg);
+}
+
+.hero-desc{
+  font-size:1rem;color:#5A5040;
+  max-width:500px;margin:0 auto 44px;line-height:2;
+  animation:fadeUp 1s ease 1s both;
+}
+
+.cta-group{
+  display:flex;gap:20px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp 1s ease 1.2s both;
+}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;
+  background:var(--dark-olive);color:var(--cream);
+  font-family:'Lora',serif;font-size:.82rem;
+  letter-spacing:3px;text-transform:uppercase;
+  text-decoration:none;border:2px solid var(--dark-olive);
+  cursor:pointer;transition:all .4s;position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);transform:scaleX(0);
+  transform-origin:left;transition:transform .4s;
+}
+.btn-primary:hover::before{transform:scaleX(1)}
+.btn-primary:hover{border-color:var(--gold);color:var(--dark-olive)}
+.btn-primary span{position:relative;z-index:1}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;background:transparent;color:var(--dark-olive);
+  font-family:'Lora',serif;font-size:.82rem;
+  letter-spacing:3px;text-transform:uppercase;text-decoration:none;
+  border:1px solid var(--gold);cursor:pointer;transition:all .3s;
+}
+.btn-secondary:hover{background:var(--parchment);border-color:var(--dark-olive)}
+
+/* ═══════════════════════════════════
+   RECETARIOS SECTION (HOME)
+═══════════════════════════════════ */
+.recetarios-section{
+  position:relative;z-index:1;
+  padding:100px 40px;max-width:1280px;margin:0 auto;
+}
+.section-header{text-align:center;margin-bottom:64px}
+.section-eyebrow{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:.88rem;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:14px;
+}
+.section-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:600;letter-spacing:6px;color:var(--dark-olive);
+}
+
+/* Cards grid */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+
+.recetario-card{
+  background:var(--parchment);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:all .5s cubic-bezier(.33,.66,.66,1);
+  cursor:pointer;display:block;position:relative;
+  text-decoration:none;color:inherit;
+}
+.recetario-card::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--red),var(--gold));
+  transform:scaleX(0);transition:transform .4s;
+}
+.recetario-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px var(--shadow);
+}
+.recetario-card:hover::after{transform:scaleX(1)}
+
+.card-visual{
+  height:180px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(155,126,70,.12),rgba(74,94,53,.08));
+}
+.card-visual-emoji{font-size:4rem;animation:floatLeaf 5s ease-in-out infinite}
+.card-badge{
+  position:absolute;top:14px;right:14px;
+  background:var(--dark-olive);color:var(--cream);
+  font-family:'Lora',serif;font-size:.62rem;letter-spacing:2px;
+  text-transform:uppercase;padding:4px 10px;
+}
+.card-badge.available{background:var(--red)}
+.card-body{padding:26px 28px 28px}
+.card-name{
+  font-family:'Cinzel',serif;font-size:1.4rem;
+  font-weight:600;letter-spacing:2px;color:var(--dark-olive);
+  margin-bottom:10px;
+}
+.card-desc{font-size:.87rem;color:#5A5040;line-height:1.85;margin-bottom:20px}
+.card-count{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Lora',serif;font-size:.72rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);
+}
+.card-count::before{content:'';display:block;width:20px;height:1px;background:var(--gold)}
+
+/* Philosophy strip */
+.philosophy-strip{
+  background:var(--dark-olive);color:var(--cream);
+  text-align:center;padding:60px 40px;
+  border-top:3px solid var(--gold);border-bottom:3px solid var(--gold);
+}
+.philosophy-quote{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.4rem,2.5vw,2rem);
+  color:var(--gold-light);margin-bottom:12px;
+}
+.philosophy-attr{font-size:.85rem;letter-spacing:2px;opacity:.65}
+
+/* Footer */
+footer{
+  background:var(--ink);color:var(--cream);
+  text-align:center;padding:48px 40px;
+}
+.footer-logo{
+  font-family:'Cinzel',serif;font-size:1.6rem;
+  font-weight:700;letter-spacing:8px;color:var(--gold);margin-bottom:6px;
+}
+.footer-sub{font-family:'Lora',serif;font-style:italic;font-size:1rem;opacity:.65}
+.footer-copy{font-size:.72rem;letter-spacing:2px;opacity:.4;margin-top:20px}
+
+/* ═══════════════════════════════════
+   RECETARIO PAGE — PIZZAS
+═══════════════════════════════════ */
+.page-pizzas-bg{
+  min-height:100vh;
+  background:var(--cream);
+}
+
+.recetario-header{
+  background:var(--parchment);
+  padding:88px 40px 44px;text-align:center;
+  border-bottom:2px solid var(--gold);margin-bottom:0;
+  position:relative;
+}
+.recetario-header::before{
+  content:'';position:absolute;
+  top:80px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.75rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--olive);text-decoration:none;margin-bottom:28px;
+  transition:color .3s;background:none;border:none;cursor:pointer;
+}
+.back-btn:hover{color:var(--gold)}
+
+.recetario-h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2rem,4vw,3rem);font-weight:700;
+  letter-spacing:10px;color:var(--dark-olive);
+}
+.recetario-sub{
+  font-size:.82rem;letter-spacing:4px;color:var(--olive);
+  text-transform:uppercase;margin-top:6px;
+}
+.recetario-tagline{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:var(--gold);margin-top:10px;
+}
+
+/* Admin banner */
+#admin-banner{
+  display:none;
+  background:var(--dark-olive);color:var(--cream);
+  text-align:center;padding:10px;
+  font-family:'Lora',serif;font-size:.78rem;letter-spacing:2px;
+  text-transform:uppercase;border-bottom:2px solid var(--gold);
+}
+body.admin-mode #admin-banner{display:block}
+
+/* Intro */
+.intro-section{text-align:center;padding:56px 40px 36px;max-width:700px;margin:0 auto}
+.intro-section h2{
+  font-family:'Cinzel',serif;font-size:1.8rem;font-weight:600;
+  letter-spacing:3px;color:var(--dark-olive);margin-bottom:16px;
+}
+.intro-section p{font-size:.94rem;color:#5A5040;line-height:1.9}
+
+/* ═══════════════════════════════════
+   RECIPE CARDS
+═══════════════════════════════════ */
+.recipes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:32px;
+  padding:0 40px 80px;
+  max-width:1280px;margin:0 auto;
+}
+
+.recipe-card{
+  background:var(--white);
+  border:1px solid rgba(155,126,70,.25);
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(28,20,8,.06);
+  transition:all .4s;position:relative;
+}
+.recipe-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--red));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;z-index:10;
+}
+.recipe-card:hover::before{transform:scaleX(1)}
+.recipe-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(28,20,8,.14);
+  border-color:var(--gold);
+}
+
+/* ── Image / video zone ── */
+.pizza-media{
+  width:100%;height:220px;
+  background:linear-gradient(135deg,var(--parchment),rgba(155,126,70,.08));
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid rgba(155,126,70,.2);
+  overflow:hidden;position:relative;cursor:default;
+}
+.pizza-media img,.pizza-media video{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;
+}
+.pizza-media-emoji{
+  font-size:4rem;position:relative;z-index:1;
+  transition:opacity .3s;
+}
+.pizza-media img+.pizza-media-emoji,
+.pizza-media video+.pizza-media-emoji{opacity:0}
+
+.media-type-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(28,20,8,.6);color:var(--cream);
+  font-size:.62rem;letter-spacing:2px;padding:3px 8px;
+  text-transform:uppercase;z-index:20;border-radius:2px;
+}
+
+/* Card body */
+.recipe-content{padding:28px}
+.recipe-title{
+  font-family:'Cinzel',serif;font-size:1.45rem;font-weight:600;
+  letter-spacing:1px;margin-bottom:18px;padding-bottom:12px;
+  color:var(--dark-olive);position:relative;
+}
+.recipe-title::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:36px;height:2px;background:var(--gold);
+}
+
+.recipe-sections{display:flex;flex-direction:column;gap:18px}
+.recipe-section{
+  border-left:2px solid rgba(155,126,70,.3);padding-left:14px;
+}
+.section-title-label{
+  font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;
+  color:var(--olive);text-transform:uppercase;letter-spacing:2px;
+  margin-bottom:8px;display:block;
+}
+.ingredients-list{display:flex;flex-direction:column;gap:4px}
+.ingredient{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.89rem;padding:6px 0;
+  border-bottom:1px dotted rgba(155,126,70,.2);
+}
+.ingredient:last-child{border-bottom:none}
+.ingredient-name{color:var(--ink);flex:1}
+.ingredient-qty{
+  font-family:'Cinzel',serif;font-size:.82rem;
+  color:var(--gold);font-weight:600;margin-left:12px;white-space:nowrap;
+}
+
+.recipe-note{
+  font-size:.84rem;color:#5A5040;padding:10px 14px;
+  border-left:2px solid var(--gold);
+  background:rgba(155,126,70,.06);margin-top:14px;font-style:italic;
+}
+
+/* Admin bar on card */
+.card-admin-bar{
+  display:none;gap:8px;padding:10px 14px;
+  background:rgba(155,126,70,.08);
+  border-top:1px solid rgba(155,126,70,.2);
+}
+body.admin-mode .card-admin-bar{display:flex}
+.btn-edit-card,.btn-delete-card{
+  flex:1;padding:8px 10px;
+  font-family:'Lora',serif;font-size:.72rem;letter-spacing:1px;
+  text-transform:uppercase;border:1px solid rgba(155,126,70,.3);
+  background:var(--white);cursor:pointer;transition:all .2s;color:var(--ink);
+}
+.btn-edit-card:hover{background:var(--dark-olive);color:var(--cream);border-color:var(--dark-olive)}
+.btn-delete-card:hover{background:var(--red);color:var(--cream);border-color:var(--red)}
+
+/* Recetario footer */
+.recetario-footer{
+  background:var(--dark-olive);color:var(--cream);
+  padding:48px 40px;text-align:center;
+  border-top:3px solid var(--gold);
+}
+.recetario-footer h3{
+  font-family:'Cinzel',serif;font-size:1.5rem;
+  font-weight:600;letter-spacing:4px;margin-bottom:8px;color:var(--gold-light);
+}
+.recetario-footer p{opacity:.6;font-size:.85rem}
+
+/* ═══════════════════════════════════
+   ADMIN FLOATERS
+═══════════════════════════════════ */
+#admin-toggle{
+  position:fixed;bottom:28px;right:28px;
+  width:54px;height:54px;
+  background:var(--dark-olive);color:var(--cream);
+  border:2px solid var(--gold);border-radius:50%;
+  font-size:1.3rem;cursor:pointer;
+  box-shadow:0 4px 20px var(--shadow);
+  z-index:999;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;
+}
+#admin-toggle:hover{background:var(--olive);transform:scale(1.1)}
+#admin-toggle.active{background:var(--red);border-color:var(--red)}
+
+#btn-add-recipe{
+  display:none;position:fixed;bottom:28px;right:96px;
+  padding:14px 22px;
+  background:var(--gold);color:var(--dark-olive);
+  border:none;font-family:'Lora',serif;font-size:.78rem;
+  letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 4px 20px var(--shadow);
+  z-index:999;transition:all .3s;
+}
+body.admin-mode #btn-add-recipe{display:block}
+#btn-add-recipe:hover{background:var(--gold-light)}
+
+/* ═══════════════════════════════════
+   MODAL BASE
+═══════════════════════════════════ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(26,26,15,.65);
+  z-index:1000;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex}
+
+.modal{
+  background:var(--white);width:100%;max-width:680px;
+  max-height:90vh;overflow-y:auto;padding:44px;position:relative;
+  box-shadow:0 30px 80px rgba(26,26,15,.4);
+  border-top:4px solid var(--gold);
+}
+
+.modal h2{
+  font-family:'Cinzel',serif;font-size:1.7rem;font-weight:600;
+  letter-spacing:2px;margin-bottom:6px;color:var(--dark-olive);
+}
+.modal-sub{
+  font-size:.78rem;color:#8A7A5A;letter-spacing:1px;
+  margin-bottom:26px;padding-bottom:18px;
+  border-bottom:1px solid rgba(155,126,70,.2);
+}
+.modal-close{
+  position:absolute;top:16px;right:20px;
+  background:none;border:none;font-size:1.4rem;cursor:pointer;color:#8A7A5A;
+}
+.modal-close:hover{color:var(--red)}
+
+/* Form */
+.form-group{margin-bottom:20px}
+.form-group label{
+  display:block;font-size:.74rem;letter-spacing:2px;
+  text-transform:uppercase;color:#8A7A5A;margin-bottom:6px;
+}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:10px 14px;
+  border:1px solid rgba(155,126,70,.3);
+  background:var(--cream);
+  font-family:'Lora',serif;font-size:.9rem;color:var(--ink);outline:none;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group textarea{min-height:70px;resize:vertical}
+
+/* Image/video upload area */
+.media-upload-area{
+  border:2px dashed rgba(155,126,70,.4);padding:24px;
+  text-align:center;cursor:pointer;transition:all .3s;
+  position:relative;background:var(--cream);
+}
+.media-upload-area:hover{border-color:var(--gold);background:var(--parchment)}
+.media-upload-area input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.media-upload-area .upload-icon{font-size:2rem;margin-bottom:8px}
+.media-upload-area p{font-size:.8rem;color:#8A7A5A;letter-spacing:1px}
+
+.media-preview{display:none;margin-top:12px}
+.media-preview img,.media-preview video{
+  width:100%;height:160px;object-fit:cover;
+  border:1px solid rgba(155,126,70,.3);
+}
+.btn-remove-media{
+  display:block;width:100%;margin-top:6px;padding:6px;
+  font-family:'Lora',serif;font-size:.7rem;letter-spacing:1px;
+  text-transform:uppercase;background:none;
+  border:1px solid rgba(155,126,70,.3);cursor:pointer;color:#8A7A5A;
+  transition:all .2s;
+}
+.btn-remove-media:hover{background:var(--red);color:var(--cream);border-color:var(--red)}
+
+/* URL input for video */
+.video-url-group{margin-top:12px;display:none}
+.video-url-group.visible{display:block}
+
+/* Sections builder */
+.sections-builder{
+  border:1px solid rgba(155,126,70,.2);padding:20px;margin-bottom:20px;
+  background:var(--cream);
+}
+.sections-builder h3{
+  font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;
+  letter-spacing:2px;margin-bottom:16px;color:var(--gold);
+  text-transform:uppercase;
+}
+.section-block{
+  background:var(--white);padding:16px;margin-bottom:14px;
+  border:1px solid rgba(155,126,70,.2);position:relative;
+}
+.section-block-label{
+  font-size:.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:#8A7A5A;margin-bottom:8px;
+}
+.sec-title-input{
+  width:100%;padding:8px 10px;
+  border:1px solid rgba(155,126,70,.2);
+  font-family:'Lora',serif;font-size:.86rem;
+  margin-bottom:12px;outline:none;background:var(--cream);
+}
+.sec-title-input:focus{border-color:var(--gold)}
+.ingredients-builder{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.ingredient-row{display:grid;grid-template-columns:1fr 120px 32px;gap:8px;align-items:center}
+.ingredient-row input{
+  padding:7px 10px;border:1px solid rgba(155,126,70,.2);
+  font-family:'Lora',serif;font-size:.83rem;outline:none;background:var(--cream);
+}
+.ingredient-row input:focus{border-color:var(--gold)}
+.btn-remove-row{
+  width:32px;height:32px;background:none;border:1px solid rgba(155,126,70,.2);
+  color:#8A7A5A;cursor:pointer;font-size:1rem;display:flex;
+  align-items:center;justify-content:center;transition:all .2s;
+}
+.btn-remove-row:hover{background:var(--red);color:var(--cream);border-color:var(--red)}
+.btn-small{
+  padding:7px 14px;font-family:'Lora',serif;font-size:.7rem;letter-spacing:1px;
+  text-transform:uppercase;border:1px solid rgba(155,126,70,.2);
+  background:var(--cream);cursor:pointer;margin-top:8px;transition:all .2s;
+}
+.btn-small:hover{background:var(--dark-olive);color:var(--cream);border-color:var(--dark-olive)}
+.btn-remove-section{position:absolute;top:10px;right:10px;padding:4px 10px;font-size:.68rem}
+.btn-remove-section:hover{background:var(--red)!important;border-color:var(--red)!important}
+.btn-add-section{
+  display:block;width:100%;padding:10px;
+  border:1px dashed rgba(155,126,70,.35);background:none;
+  font-family:'Lora',serif;font-size:.76rem;letter-spacing:2px;
+  text-transform:uppercase;color:#8A7A5A;cursor:pointer;transition:all .2s;margin-top:4px;
+}
+.btn-add-section:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Modal actions */
+.modal-actions{
+  display:flex;gap:12px;padding-top:20px;
+  border-top:1px solid rgba(155,126,70,.2);margin-top:10px;
+}
+.btn-save{
+  flex:1;padding:14px;background:var(--dark-olive);color:var(--cream);
+  border:none;font-family:'Lora',serif;font-size:.8rem;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;
+}
+.btn-save:hover{background:var(--olive)}
+.btn-cancel{
+  padding:14px 24px;background:none;border:1px solid rgba(155,126,70,.3);
+  font-family:'Lora',serif;font-size:.8rem;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--ink);
+}
+.btn-cancel:hover{border-color:var(--dark-olive)}
+
+/* Password modal */
+#pwd-modal .modal{max-width:400px;text-align:center}
+#pwd-modal input{
+  width:100%;padding:12px;
+  border:1px solid rgba(155,126,70,.3);
+  font-family:'Lora',serif;font-size:1rem;
+  text-align:center;letter-spacing:6px;margin:16px 0;
+  outline:none;background:var(--cream);
+}
+#pwd-modal input:focus{border-color:var(--gold)}
+#pwd-error{color:var(--red);font-size:.8rem;margin-top:-8px;display:none}
+
+/* Confirm delete */
+#confirm-modal .modal{max-width:380px;text-align:center}
+#confirm-modal p{color:#5A5040;margin:12px 0 24px;line-height:1.7}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══════════════════════════════════
+   ADMIN PANEL HERO EDIT
+═══════════════════════════════════ */
+.hero-edit-btn{
+  display:none;
+  position:absolute;top:80px;right:20px;
+  padding:8px 16px;
+  background:rgba(155,126,70,.85);color:var(--dark-olive);
+  border:none;font-family:'Lora',serif;font-size:.72rem;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+  z-index:50;transition:all .2s;
+}
+.hero-edit-btn:hover{background:var(--gold)}
+body.admin-mode .hero-edit-btn{display:block}
+
+/* Edit overlay for editable elements */
+body.admin-mode [data-editable]:hover{
+  outline:2px dashed rgba(155,126,70,.6);
+  outline-offset:4px;cursor:pointer;
+  position:relative;
+}
+body.admin-mode [data-editable]:hover::after{
+  content:'✏️ Editar';
+  position:absolute;top:-22px;left:0;
+  background:var(--gold);color:var(--dark-olive);
+  font-family:'Lora',serif;font-size:.62rem;letter-spacing:1px;
+  padding:2px 8px;z-index:100;pointer-events:none;
+}
+
+/* ── INLINE TEXT EDITOR ── */
+.inline-editor{
+  display:none;position:fixed;
+  background:var(--white);padding:24px;
+  border-top:3px solid var(--gold);
+  box-shadow:0 20px 60px var(--shadow);
+  z-index:2000;width:440px;max-width:95vw;
+}
+.inline-editor.open{display:block}
+.inline-editor h4{
+  font-family:'Cinzel',serif;font-size:1rem;letter-spacing:2px;
+  color:var(--dark-olive);margin-bottom:12px;
+}
+.inline-editor textarea,.inline-editor input{
+  width:100%;border:1px solid rgba(155,126,70,.3);
+  padding:10px;font-family:'Lora',serif;font-size:.9rem;
+  outline:none;background:var(--cream);margin-bottom:12px;resize:vertical;
+}
+.inline-editor textarea:focus,.inline-editor input:focus{border-color:var(--gold)}
+.inline-editor-actions{display:flex;gap:8px}
+.btn-inline-save,.btn-inline-cancel{
+  flex:1;padding:10px;font-family:'Lora',serif;font-size:.74rem;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;
+}
+.btn-inline-save{background:var(--dark-olive);color:var(--cream);border:none}
+.btn-inline-save:hover{background:var(--olive)}
+.btn-inline-cancel{background:none;border:1px solid rgba(155,126,70,.3);color:var(--ink)}
+.btn-inline-cancel:hover{border-color:var(--dark-olive)}
+
+/* ── PAGE EDITOR MODAL ── */
+#page-edit-modal .modal{max-width:720px}
+.page-setting{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px solid rgba(155,126,70,.15);
+}
+.page-setting:last-child{border-bottom:none}
+.page-setting-label{
+  font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:1px;
+  color:var(--dark-olive);
+}
+.page-setting-hint{font-size:.74rem;color:#8A7A5A;margin-top:3px}
+.page-setting-input{
+  width:220px;padding:8px 10px;
+  border:1px solid rgba(155,126,70,.3);
+  font-family:'Lora',serif;font-size:.84rem;
+  outline:none;background:var(--cream);
+}
+.page-setting-input:focus{border-color:var(--gold)}
+
+/* Responsive */
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{gap:16px}
+  .recetario-h1{font-size:2rem}
+  .recipes-grid{grid-template-columns:1fr;padding:0 20px 60px}
+  .intro-section{padding:40px 20px 24px}
+  .recetarios-section{padding:70px 20px}
+  .hero::before,.hero::after{display:none}
+  .modal{padding:28px}
+  .btn-primary,.btn-secondary{padding:14px 24px}
+  #btn-add-recipe{right:94px;font-size:.68rem;padding:12px 14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')" href="#"><span>🍕</span> ITALIAN</a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');scrollToSection('inicio')">Inicio</a></li>
+    <li><a href="#" onclick="showPage('home');scrollToSection('recetarios')">Recetarios</a></li>
+    <li><a href="#" onclick="showPage('pizzas')">Pizzas</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-ornament">🌿</div>
+    <div class="hero-ornament">🌱</div>
+    <div class="hero-ornament">🍃</div>
+    <div class="hero-ornament">🌿</div>
+    <div class="hero-ornament">🍃</div>
+    <div class="hero-ornament">🌱</div>
+
+    <button class="hero-edit-btn" onclick="openPageEditModal()">⚙️ Editar Página</button>
+
+    <!-- Logo -->
+    <div class="logo-container">
+      <div class="logo-ring"></div>
+      <div class="logo-ring-mask"></div>
+      <img class="logo-img" id="hero-logo-img" src="" alt="Logo" style="display:none">
+      <div class="logo-img-placeholder" id="hero-logo-placeholder">🍕</div>
+    </div>
+
+    <p class="hero-eyebrow" id="hero-eyebrow" data-editable="hero-eyebrow">Una tradizione autentica</p>
+    <h1 class="hero-title" id="hero-title" data-editable="hero-title">ITALIAN</h1>
+    <p class="hero-subtitle" id="hero-subtitle" data-editable="hero-subtitle">Pizza & Pasta</p>
+
+    <div class="ornament-divider"><div class="ornament-diamond"></div></div>
+
+    <p class="hero-desc" id="hero-desc" data-editable="hero-desc">
+      Cada receta es un viaje a Italia. Ingredientes seleccionados, técnicas ancestrales
+      y el amor que solo la verdadera cocina italiana puede ofrecer.
+    </p>
+
+    <div class="cta-group">
+      <button class="btn-primary" onclick="showPage('pizzas')">
+        <span>🍕 Recetario de Pizzas</span>
+      </button>
+      <button class="btn-secondary" onclick="scrollToSection('recetarios')">Ver todos los recetarios</button>
+    </div>
+  </section>
+
+  <!-- RECETARIOS SECTION -->
+  <section class="recetarios-section" id="recetarios">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Nuestra colección</p>
+      <h2 class="section-title">RECETARIOS</h2>
+      <div class="ornament-divider"><div class="ornament-diamond"></div></div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="recetario-card reveal" onclick="showPage('pizzas')">
+        <div class="card-visual">
+          <span class="card-visual-emoji">🍕</span>
+          <span class="card-badge available">Disponible</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pizzas</div>
+          <p class="card-desc">18 recetas auténticas de pizza italiana. Desde la clásica Margarita hasta la Burrata gourmet.</p>
+          <div class="card-count">18 recetas</div>
+        </div>
+      </div>
+
+      <div class="recetario-card reveal" style="opacity:.65;cursor:default;">
+        <div class="card-visual">
+          <span class="card-visual-emoji">🍝</span>
+          <span class="card-badge">Próximamente</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pastas</div>
+          <p class="card-desc">Carbonara, Cacio e Pepe, Amatriciana y mucho más. Recetas con salsas tradicionales italianas.</p>
+          <div class="card-count">En preparación</div>
+        </div>
+      </div>
+
+      <div class="recetario-card reveal" style="opacity:.65;cursor:default;">
+        <div class="card-visual">
+          <span class="card-visual-emoji">🫒</span>
+          <span class="card-badge">Próximamente</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Más Platos</div>
+          <p class="card-desc">Antipastos, ensaladas, postres y entradas especiales para completar tu experiencia italiana.</p>
+          <div class="card-count">En preparación</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY STRIP -->
+  <div class="philosophy-strip">
+    <p class="philosophy-quote" id="philosophy-quote" data-editable="philosophy-quote">«La cucina italiana è amore fatto cibo»</p>
+    <p class="philosophy-attr" id="philosophy-attr" data-editable="philosophy-attr">— La cocina italiana es amor convertido en comida</p>
+  </div>
+
+  <footer>
+    <div class="footer-logo">ITALIAN</div>
+    <div class="footer-sub">Pizza & Pasta</div>
+    <p class="footer-copy">© 2024 Italian Pizza & Pasta · Todos los derechos reservados</p>
+  </footer>
+
+</div><!-- /page-home -->
+
+
+<!-- ══════════════════════════════════
+     PAGE: PIZZAS
+══════════════════════════════════ -->
+<div id="page-pizzas" class="page">
+
+  <div id="admin-banner">⚙️ Modo Administrador Activo — Puedes agregar, editar y eliminar recetas</div>
+
+  <div class="recetario-header">
+    <button class="back-btn" onclick="showPage('home')">← Volver al inicio</button>
+    <h1 class="recetario-h1">RECETARIO</h1>
+    <div class="recetario-sub">ITALIAN PIZZA & PASTA</div>
+    <div class="ornament-divider" style="margin:12px auto"><div class="ornament-diamond"></div></div>
+    <div class="recetario-tagline">Tradición y Maestría en Cada Preparación</div>
+  </div>
+
+  <div class="intro-section">
+    <h2>Nuestras Pizzas</h2>
+    <div style="width:40px;height:2px;background:var(--gold);margin:14px auto"></div>
+    <p>Una selección cuidadosamente curada de variedades de pizza, elaboradas siguiendo las tradiciones italianas más refinadas.</p>
+  </div>
+
+  <div class="recipes-grid" id="recipes-grid"></div>
+
+  <div class="recetario-footer">
+    <h3>ITALIAN</h3>
+    <p>Pizza & Pasta · Tradición Italiana</p>
+  </div>
+
+</div><!-- /page-pizzas -->
+
+
+<!-- ── ADMIN FLOATERS ── -->
+<button id="admin-toggle" title="Administrador">⚙️</button>
+<button id="btn-add-recipe">+ Agregar Receta</button>
+
+
+<!-- ══ MODAL: CONTRASEÑA ══ -->
+<div class="modal-overlay" id="pwd-modal">
+  <div class="modal">
+    <h2>Acceso Admin</h2>
+    <p class="modal-sub">Ingresa la clave para editar el recetario</p>
+    <input type="password" id="pwd-input" placeholder="••••••" maxlength="30">
+    <p id="pwd-error">Clave incorrecta. Intenta de nuevo.</p>
+    <div class="modal-actions">
+      <button class="btn-save" id="btn-pwd-enter">Entrar</button>
+      <button class="btn-cancel" id="btn-pwd-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ MODAL: EDITAR / AGREGAR RECETA ══ -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <button class="modal-close" id="edit-close">✕</button>
+    <h2 id="edit-modal-title">Nueva Receta</h2>
+    <p class="modal-sub">Completa los campos y agrega las secciones de ingredientes</p>
+
+    <!-- MEDIA: imagen o video -->
+    <div class="form-group">
+      <label>Imagen o Video (opcional)</label>
+      <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.8rem;text-transform:none;letter-spacing:0">
+          <input type="radio" name="media-type" value="image" id="media-type-image" checked> Subir imagen
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.8rem;text-transform:none;letter-spacing:0">
+          <input type="radio" name="media-type" value="video-file" id="media-type-video-file"> Subir video
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.8rem;text-transform:none;letter-spacing:0">
+          <input type="radio" name="media-type" value="video-url" id="media-type-video-url"> URL de video
+        </label>
+      </div>
+
+      <div class="media-upload-area" id="media-upload-area">
+        <input type="file" id="field-media" accept="image/*,video/*">
+        <div class="upload-icon">📷</div>
+        <p>Haz clic para subir una imagen o video<br><small>JPG, PNG, MP4, MOV — recomendado hasta 10MB</small></p>
+      </div>
+
+      <div class="video-url-group" id="video-url-group">
+        <input type="url" id="field-video-url" placeholder="https://... (URL directa al video .mp4 o link)">
+      </div>
+
+      <div class="media-preview" id="media-preview">
+        <img id="media-preview-img" src="" alt="" style="display:none">
+        <video id="media-preview-video" controls style="display:none"></video>
+        <button class="btn-remove-media" id="btn-remove-media">✕ Quitar media</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Nombre de la Pizza *</label>
+      <input type="text" id="field-name" placeholder="Ej: Pizza Atipika (Master 2022)">
+    </div>
+
+    <div class="form-group">
+      <label>Nota especial (opcional)</label>
+      <textarea id="field-note" placeholder="Ej: Agregar el pesto justo al salir del horno"></textarea>
+    </div>
+
+    <div class="sections-builder">
+      <h3>Secciones de Ingredientes</h3>
+      <div id="sections-container"></div>
+      <button class="btn-add-section" id="btn-add-section">+ Agregar sección</button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" id="btn-save-recipe">💾 Guardar Receta</button>
+      <button class="btn-cancel" id="edit-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ MODAL: CONFIRMAR ELIMINAR ══ -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h2>¿Eliminar receta?</h2>
+    <p>Esta acción no se puede deshacer. La receta será eliminada permanentemente.</p>
+    <div class="modal-actions">
+      <button class="btn-save" id="btn-confirm-delete" style="background:var(--red)">Sí, eliminar</button>
+      <button class="btn-cancel" id="btn-cancel-delete">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ INLINE TEXT EDITOR ══ -->
+<div class="inline-editor" id="inline-editor">
+  <h4 id="inline-editor-title">Editar texto</h4>
+  <textarea id="inline-editor-content" rows="4" placeholder="Escribe aquí..."></textarea>
+  <div class="inline-editor-actions">
+    <button class="btn-inline-save" id="btn-inline-save">💾 Guardar</button>
+    <button class="btn-inline-cancel" id="btn-inline-cancel">Cancelar</button>
+  </div>
+</div>
+
+
+<!-- ══ MODAL: EDITAR PÁGINA (ADMIN) ══ -->
+<div class="modal-overlay" id="page-edit-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('page-edit-modal').classList.remove('open')">✕</button>
+    <h2>Configuración de Página</h2>
+    <p class="modal-sub">Personaliza los textos y media del sitio</p>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Logo (imagen circular)</div>
+        <div class="page-setting-hint">Imagen que aparece en el hero</div>
+      </div>
+      <div>
+        <input type="file" id="setting-logo" accept="image/*" style="font-size:.76rem">
+      </div>
+    </div>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Título principal</div>
+        <div class="page-setting-hint">Texto grande del hero</div>
+      </div>
+      <input class="page-setting-input" id="setting-title" placeholder="ITALIAN">
+    </div>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Subtítulo</div>
+        <div class="page-setting-hint">Debajo del título</div>
+      </div>
+      <input class="page-setting-input" id="setting-subtitle" placeholder="Pizza & Pasta">
+    </div>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Frase del hero</div>
+        <div class="page-setting-hint">Texto en cursiva arriba del título</div>
+      </div>
+      <input class="page-setting-input" id="setting-eyebrow" placeholder="Una tradizione autentica">
+    </div>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Descripción hero</div>
+        <div class="page-setting-hint">Párrafo debajo del título</div>
+      </div>
+      <input class="page-setting-input" id="setting-desc" placeholder="Descripción...">
+    </div>
+
+    <div class="page-setting">
+      <div>
+        <div class="page-setting-label">Frase filosofía</div>
+        <div class="page-setting-hint">Cita en la franja oscura</div>
+      </div>
+      <input class="page-setting-input" id="setting-quote" placeholder="«La cucina italiana...»">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" id="btn-save-page-settings">💾 Guardar Cambios</button>
+      <button class="btn-cancel" onclick="document.getElementById('page-edit-modal').classList.remove('open')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════════════
+//  CONSTANTS & STORAGE
+// ═══════════════════════════════════════════════════
+const DATA_VERSION = 'v3';
+const STORAGE_KEY  = 'italian_pizzas_' + DATA_VERSION;
+const ADMIN_KEY    = 'italian_admin_session';
+const PAGE_KEY     = 'italian_page_settings';
+const ADMIN_PWD    = 'italian2026';
+
+// ── BASE RECIPES ──
+const BASE_RECIPES = [
+  {id:1,name:"Pizza Atipika",subtitle:"Master 2022",note:"Incorporar bien todos los ingredientes en el medidor de 60 ml antes de agregar al piso. La albahaca y la cebolla caramelizada se agregan al final.",img:"",mediaType:"",sections:[{title:"Base — Salsa",ingredients:[{name:"Bechamel",qty:"60 ml"},{name:"Sal",qty:"Pizca"},{name:"Pimienta",qty:"Pizca"}]},{title:"Toppings (Condimenti Freschi)",ingredients:[{name:"Queso",qty:"60 gr"},{name:"Pollo",qty:"30 gr"},{name:"Tocineta",qty:"30 gr"},{name:"Plátano",qty:"30 gr"},{name:"Pimentón",qty:"30 gr"},{name:"Cebolla Caramelizada",qty:"15 gr"},{name:"Albahaca Fresca",qty:"Al final"}]}]},
+  {id:2,name:"Clásica",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"},{name:"Tomate",qty:"8 rodajas"},{name:"Tocineta",qty:"30 gr"}]},{title:"Finalización — Al Horno",ingredients:[{name:"Bocconcini",qty:"2 bolitas"},{name:"Pesto Albahaca",qty:"Al gusto"},{name:"Miel",qty:"Alrededor"},{name:"Almendras",qty:"Pizca"}]}]},
+  {id:3,name:"Madura",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Pesto",ingredients:[{name:"Salsa Pesto",qty:"50 gr"},{name:"Queso",qty:"60 gr"}]},{title:"Carnes Seleccionadas",ingredients:[{name:"Peperoni",qty:"5 rodajas"},{name:"Salami",qty:"5 rodajas"},{name:"Chorizo Español",qty:"4 rodajas"},{name:"Jamón Serrano",qty:"4 rodajas"}]},{title:"Finalización",ingredients:[{name:"Plátano Maduro",qty:"Al gusto"},{name:"Champiñones",qty:"Al gusto"}]}]},
+  {id:4,name:"Italiana",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Carnes Frías",ingredients:[{name:"Jamón de Cerdo",qty:"30 gr"},{name:"Salami",qty:"5 rodajas"},{name:"Peperoni",qty:"5 rodajas"}]},{title:"Vegetales",ingredients:[{name:"Champiñones",qty:"Al gusto"},{name:"Aceitunas",qty:"Al gusto"},{name:"Pimentón",qty:"30 gr"}]}]},
+  {id:5,name:"Hawaiana",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Toppings",ingredients:[{name:"Jamón de Cerdo",qty:"60 gr"},{name:"Piña",qty:"Al gusto"}]}]},
+  {id:6,name:"Pollo BBQ",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — BBQ",ingredients:[{name:"Salsa BBQ",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Proteína",ingredients:[{name:"Pollo",qty:"60 gr"}]},{title:"Vegetales",ingredients:[{name:"Pimentón",qty:"30 gr"},{name:"Cebolla Caramelizada",qty:"15 gr"},{name:"Champiñones",qty:"Al gusto"}]}]},
+  {id:7,name:"Napolitana",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Toppings",ingredients:[{name:"Champiñones",qty:"Al gusto"},{name:"Aceitunas",qty:"Al gusto"},{name:"Alcaparras",qty:"Al gusto"},{name:"Anchoas",qty:"Al gusto"}]}]},
+  {id:8,name:"Mar y Tierra",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Tierra",ingredients:[{name:"Tocineta",qty:"30 gr"},{name:"Carne Molida",qty:"30 gr"}]},{title:"Mar",ingredients:[{name:"Camarones",qty:"30 gr"},{name:"Calamar",qty:"30 gr"}]}]},
+  {id:9,name:"Vegetariana",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Vegetales",ingredients:[{name:"Champiñones",qty:"Al gusto"},{name:"Aceitunas",qty:"Al gusto"},{name:"Pimentón",qty:"30 gr"},{name:"Cebolla",qty:"15 gr"},{name:"Tomate Cherry",qty:"Al gusto"},{name:"Rúgula",qty:"Al final"}]}]},
+  {id:10,name:"Pepperoni",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Topping",ingredients:[{name:"Peperoni",qty:"15 rodajas"}]}]},
+  {id:11,name:"Margarita",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso Mozzarella",qty:"80 gr"}]},{title:"Fresca",ingredients:[{name:"Tomate Cherry",qty:"Al gusto"},{name:"Albahaca Fresca",qty:"Al final"},{name:"Aceite de Oliva",qty:"Al final"}]}]},
+  {id:12,name:"Prosciutto",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Blanca",ingredients:[{name:"Aceite de Oliva",qty:"30 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Topping",ingredients:[{name:"Jamón Serrano",qty:"40 gr"},{name:"Rúgula",qty:"Al final"},{name:"Parmesano",qty:"Al gusto"}]}]},
+  {id:13,name:"Diavola",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Topping Picante",ingredients:[{name:"Salami Picante",qty:"10 rodajas"},{name:"Jalapeños",qty:"Al gusto"},{name:"Aceite Picante",qty:"Al final"}]}]},
+  {id:14,name:"Trufa",subtitle:"Gourmet",note:"",img:"",mediaType:"",sections:[{title:"Base — Blanca",ingredients:[{name:"Crema de Trufa",qty:"40 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Gourmet",ingredients:[{name:"Champiñones Portobello",qty:"Al gusto"},{name:"Aceite de Trufa",qty:"Al final"},{name:"Parmesano",qty:"Al gusto"},{name:"Rúgula",qty:"Al final"}]}]},
+  {id:15,name:"Fresca",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Fresca",ingredients:[{name:"Aceitunas",qty:"Al gusto"},{name:"Tomate Cherry",qty:"Al gusto"},{name:"Rúgula",qty:"Al final"}]}]},
+  {id:16,name:"Burrata",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"},{name:"Tomate",qty:"Al gusto"}]},{title:"Gourmet",ingredients:[{name:"Burrata Fresca",qty:"Al final"},{name:"Aceite de Oliva",qty:"Al final"},{name:"Albahaca",qty:"Al final"},{name:"Vinagre Balsámico",qty:"Al final"}]}]},
+  {id:17,name:"Sicilia",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso",qty:"60 gr"}]},{title:"Quesería",ingredients:[{name:"Plátano Maduro",qty:"Al gusto"},{name:"Queso Azul",qty:"Al gusto"},{name:"Queso Ricotta",qty:"Al gusto"},{name:"Parmesano",qty:"Al gusto"},{name:"Finas Hierbas",qty:"Al final"}]}]},
+  {id:18,name:"Cuatro Quesos",subtitle:"",note:"",img:"",mediaType:"",sections:[{title:"Base — Napolitana",ingredients:[{name:"Salsa Napolitana",qty:"60 ml"},{name:"Queso Base",qty:"60 gr"}]},{title:"Los Cuatro Quesos",ingredients:[{name:"Queso Azul",qty:"Al gusto"},{name:"Queso Ricotta",qty:"Al gusto"},{name:"Queso Parmesano",qty:"Al gusto"},{name:"Finas Hierbas",qty:"Al final"}]}]}
+];
+
+// ── Storage helpers ──
+function loadRecipes(){
+  try{
+    const r=localStorage.getItem(STORAGE_KEY);
+    if(r) return JSON.parse(r);
+  }catch(e){}
+  const d=JSON.parse(JSON.stringify(BASE_RECIPES));
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(d));
+  return d;
+}
+function saveRecipes(list){localStorage.setItem(STORAGE_KEY,JSON.stringify(list))}
+function isAdminSession(){return sessionStorage.getItem(ADMIN_KEY)==='1'}
+function setAdminSession(v){if(v)sessionStorage.setItem(ADMIN_KEY,'1');else sessionStorage.removeItem(ADMIN_KEY)}
+function loadPageSettings(){
+  try{const s=localStorage.getItem(PAGE_KEY);if(s)return JSON.parse(s)}catch(e){}
+  return {};
+}
+function savePageSettings(s){localStorage.setItem(PAGE_KEY,JSON.stringify(s))}
+
+// ── State ──
+let recipes=loadRecipes();
+let editingId=null,deletingId=null;
+let pendingMedia={type:'',data:'',url:''};
+
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ════════════════════════════════════
+//  SPA NAVIGATION
+// ════════════════════════════════════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='pizzas') renderRecipes();
+}
+function scrollToSection(id){
+  showPage('home');
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})},100);
+}
+
+// Reveal on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*120)});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ════════════════════════════════════
+//  RENDER RECIPES
+// ════════════════════════════════════
+function renderRecipes(){
+  const grid=document.getElementById('recipes-grid');
+  grid.innerHTML='';
+
+  recipes.forEach((r,idx)=>{
+    const card=document.createElement('div');
+    card.className='recipe-card';
+    card.dataset.id=r.id;
+
+    // Media HTML
+    let mediaHTML='<span class="pizza-media-emoji">🍕</span>';
+    let badgeHTML='';
+    if(r.img && r.mediaType==='video'){
+      mediaHTML=`<video src="${r.img}" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video><span class="pizza-media-emoji">🍕</span>`;
+      badgeHTML='<span class="media-type-badge">🎬 Video</span>';
+    }else if(r.img){
+      mediaHTML=`<img src="${r.img}" alt="${esc(r.name)}"><span class="pizza-media-emoji">🍕</span>`;
+    }
+
+    const secHTML=(r.sections||[]).map(sec=>`
+      <div class="recipe-section">
+        <span class="section-title-label">${esc(sec.title)}</span>
+        <div class="ingredients-list">
+          ${(sec.ingredients||[]).map(ing=>`
+            <div class="ingredient">
+              <span class="ingredient-name">${esc(ing.name)}</span>
+              <span class="ingredient-qty">${esc(ing.qty)}</span>
+            </div>`).join('')}
+        </div>
+      </div>`).join('');
+
+    const subtitleHTML=r.subtitle?`<div style="font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--red);margin-top:2px;margin-bottom:14px">(${esc(r.subtitle)})</div>`:'';
+    const noteHTML=r.note?`<div class="recipe-note">📝 ${esc(r.note)}</div>`:'';
+
+    card.innerHTML=`
+      <div class="pizza-media">${badgeHTML}${mediaHTML}</div>
+      <div class="recipe-content">
+        <div class="recipe-title">${esc(r.name)}</div>
+        ${subtitleHTML}
+        <div class="recipe-sections">${secHTML}</div>
+        ${noteHTML}
+      </div>
+      <div class="card-admin-bar">
+        <button class="btn-edit-card" data-id="${r.id}">✏️ Editar</button>
+        <button class="btn-delete-card" data-id="${r.id}">🗑️ Eliminar</button>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  document.querySelectorAll('.btn-edit-card').forEach(b=>b.addEventListener('click',()=>openEditModal(+b.dataset.id)));
+  document.querySelectorAll('.btn-delete-card').forEach(b=>b.addEventListener('click',()=>openConfirmDelete(+b.dataset.id)));
+
+  requestAnimationFrame(()=>{
+    grid.querySelectorAll('.recipe-card').forEach((c,i)=>{
+      c.style.opacity='0';c.style.transform='translateY(20px)';
+      c.style.transition='opacity .5s,transform .5s';
+      setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)'},i*50);
+    });
+  });
+}
+
+// ════════════════════════════════════
+//  ADMIN
+// ════════════════════════════════════
+const adminToggle=document.getElementById('admin-toggle');
+
+function activateAdmin(){
+  setAdminSession(true);
+  document.body.classList.add('admin-mode');
+  adminToggle.classList.add('active');
+  adminToggle.textContent='🔓';
+  enableInlineEditing();
+}
+function deactivateAdmin(){
+  setAdminSession(false);
+  document.body.classList.remove('admin-mode');
+  adminToggle.classList.remove('active');
+  adminToggle.textContent='⚙️';
+}
+adminToggle.addEventListener('click',()=>{
+  if(isAdminSession()) deactivateAdmin();
+  else openPwdModal();
+});
+
+// Password modal
+const pwdModal=document.getElementById('pwd-modal');
+const pwdInput=document.getElementById('pwd-input');
+const pwdError=document.getElementById('pwd-error');
+
+function openPwdModal(){
+  pwdInput.value='';pwdError.style.display='none';
+  pwdModal.classList.add('open');
+  setTimeout(()=>pwdInput.focus(),100);
+}
+document.getElementById('btn-pwd-enter').addEventListener('click',checkPwd);
+pwdInput.addEventListener('keydown',e=>{if(e.key==='Enter')checkPwd()});
+document.getElementById('btn-pwd-cancel').addEventListener('click',()=>pwdModal.classList.remove('open'));
+
+function checkPwd(){
+  if(pwdInput.value===ADMIN_PWD){
+    pwdModal.classList.remove('open');
+    activateAdmin();
+  }else{
+    pwdError.style.display='block';
+    pwdInput.value='';pwdInput.focus();
+  }
+}
+
+// ════════════════════════════════════
+//  EDIT / ADD RECIPE MODAL
+// ════════════════════════════════════
+document.getElementById('btn-add-recipe').addEventListener('click',()=>openEditModal(null));
+document.getElementById('edit-close').addEventListener('click',closeEditModal);
+document.getElementById('edit-cancel').addEventListener('click',closeEditModal);
+document.getElementById('btn-add-section').addEventListener('click',()=>addSectionBlock(null));
+document.getElementById('btn-save-recipe').addEventListener('click',saveRecipe);
+
+// Media type switching
+document.querySelectorAll('input[name="media-type"]').forEach(radio=>{
+  radio.addEventListener('change',()=>{
+    const val=document.querySelector('input[name="media-type"]:checked').value;
+    const uploadArea=document.getElementById('media-upload-area');
+    const urlGroup=document.getElementById('video-url-group');
+    const fileInput=document.getElementById('field-media');
+
+    if(val==='video-url'){
+      uploadArea.style.display='none';
+      urlGroup.classList.add('visible');
+    }else{
+      uploadArea.style.display='block';
+      urlGroup.classList.remove('visible');
+      if(val==='image') fileInput.accept='image/*';
+      else fileInput.accept='video/*';
+    }
+    // Update upload icon
+    uploadArea.querySelector('.upload-icon').textContent=(val==='video-file')?'🎬':'📷';
+  });
+});
+
+// File upload
+document.getElementById('field-media').addEventListener('change',function(){
+  const file=this.files[0];
+  if(!file) return;
+  const isVideo=file.type.startsWith('video/');
+  const reader=new FileReader();
+  reader.onload=e=>{
+    pendingMedia={type:isVideo?'video':'image',data:e.target.result,url:''};
+    showMediaPreview(isVideo?'video':null,e.target.result);
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('field-video-url').addEventListener('blur',function(){
+  const url=this.value.trim();
+  if(url){
+    pendingMedia={type:'video',data:'',url:url};
+    showMediaPreview('video-url',url);
+  }
+});
+
+function showMediaPreview(type,src){
+  const preview=document.getElementById('media-preview');
+  const img=document.getElementById('media-preview-img');
+  const video=document.getElementById('media-preview-video');
+  preview.style.display='block';
+  document.getElementById('media-upload-area').style.display='none';
+  img.style.display='none';
+  video.style.display='none';
+
+  if(type==='video'||type==='video-url'){
+    video.src=src;video.style.display='block';
+  }else{
+    img.src=src;img.style.display='block';
+  }
+}
+
+document.getElementById('btn-remove-media').addEventListener('click',()=>{
+  pendingMedia={type:'',data:'',url:''};
+  document.getElementById('media-preview').style.display='none';
+  document.getElementById('media-upload-area').style.display='block';
+  document.getElementById('field-media').value='';
+  document.getElementById('field-video-url').value='';
+  document.getElementById('media-preview-img').src='';
+  document.getElementById('media-preview-video').src='';
+});
+
+function openEditModal(id){
+  editingId=id;
+  pendingMedia={type:'',data:'',url:''};
+  document.getElementById('sections-container').innerHTML='';
+  document.getElementById('media-preview').style.display='none';
+  document.getElementById('media-upload-area').style.display='block';
+  document.getElementById('media-preview-img').src='';
+  document.getElementById('media-preview-video').src='';
+  document.getElementById('field-media').value='';
+  document.getElementById('field-video-url').value='';
+  document.getElementById('video-url-group').classList.remove('visible');
+  document.getElementById('media-type-image').checked=true;
+  document.getElementById('media-upload-area').querySelector('.upload-icon').textContent='📷';
+  document.getElementById('media-upload-area').style.display='block';
+
+  if(id===null){
+    document.getElementById('edit-modal-title').textContent='Nueva Receta';
+    document.getElementById('field-name').value='';
+    document.getElementById('field-note').value='';
+    addSectionBlock(null);
+  }else{
+    const r=recipes.find(x=>x.id===id);
+    document.getElementById('edit-modal-title').textContent='Editar: '+r.name;
+    document.getElementById('field-name').value=r.name||'';
+    document.getElementById('field-note').value=r.note||'';
+    if(r.img){
+      pendingMedia={type:r.mediaType||'image',data:r.img,url:''};
+      showMediaPreview(r.mediaType==='video'?'video':null,r.img);
+    }
+    (r.sections||[]).forEach(sec=>addSectionBlock(sec));
+  }
+  document.getElementById('edit-modal').classList.add('open');
+}
+function closeEditModal(){document.getElementById('edit-modal').classList.remove('open')}
+
+function addSectionBlock(secData){
+  const container=document.getElementById('sections-container');
+  const block=document.createElement('div');
+  block.className='section-block';
+  block.innerHTML=`
+    <button class="btn-small btn-remove-section" title="Eliminar sección">✕ Quitar</button>
+    <div class="section-block-label">Nombre de la sección</div>
+    <input type="text" class="sec-title-input" placeholder="Ej: Base — Salsa, Toppings…" value="${secData?esc(secData.title):''}">
+    <div class="section-block-label" style="margin-top:8px">Ingredientes</div>
+    <div class="ingredients-builder"></div>
+    <button class="btn-small btn-add-ing" style="margin-top:10px">+ Ingrediente</button>`;
+  block.querySelector('.btn-remove-section').addEventListener('click',()=>block.remove());
+  block.querySelector('.btn-add-ing').addEventListener('click',()=>addIngRow(block.querySelector('.ingredients-builder'),null));
+  container.appendChild(block);
+  if(secData&&secData.ingredients&&secData.ingredients.length){
+    secData.ingredients.forEach(ing=>addIngRow(block.querySelector('.ingredients-builder'),ing));
+  }else{
+    addIngRow(block.querySelector('.ingredients-builder'),null);
+  }
+}
+function addIngRow(container,ingData){
+  const row=document.createElement('div');
+  row.className='ingredient-row';
+  row.innerHTML=`
+    <input type="text" class="ing-name" placeholder="Ingrediente" value="${ingData?esc(ingData.name):''}">
+    <input type="text" class="ing-qty" placeholder="Cantidad" value="${ingData?esc(ingData.qty):''}">
+    <button class="btn-remove-row" title="Eliminar">✕</button>`;
+  row.querySelector('.btn-remove-row').addEventListener('click',()=>row.remove());
+  container.appendChild(row);
+}
+function saveRecipe(){
+  const name=document.getElementById('field-name').value.trim();
+  if(!name){alert('El nombre de la pizza es obligatorio.');return}
+
+  const sections=[];
+  document.querySelectorAll('.section-block').forEach(block=>{
+    const title=block.querySelector('.sec-title-input').value.trim()||'Ingredientes';
+    const ingredients=[];
+    block.querySelectorAll('.ingredient-row').forEach(row=>{
+      const n=row.querySelector('.ing-name').value.trim();
+      const q=row.querySelector('.ing-qty').value.trim();
+      if(n) ingredients.push({name:n,qty:q});
+    });
+    if(ingredients.length) sections.push({title,ingredients});
+  });
+
+  const note=document.getElementById('field-note').value.trim();
+
+  // Determine media
+  let imgData='',mediaType='';
+  const urlVal=document.getElementById('field-video-url').value.trim();
+  if(pendingMedia.data){imgData=pendingMedia.data;mediaType=pendingMedia.type}
+  else if(urlVal){imgData=urlVal;mediaType='video'}
+  else if(editingId!==null){
+    const existing=recipes.find(r=>r.id===editingId);
+    imgData=existing?existing.img||'':'';
+    mediaType=existing?existing.mediaType||'':'';
+  }
+
+  if(editingId===null){
+    const newId=recipes.length?Math.max(...recipes.map(r=>r.id))+1:1;
+    recipes.push({id:newId,name,subtitle:'',note,img:imgData,mediaType,sections});
+  }else{
+    const idx=recipes.findIndex(r=>r.id===editingId);
+    recipes[idx]={...recipes[idx],name,note,img:imgData,mediaType,sections};
+  }
+  saveRecipes(recipes);
+  renderRecipes();
+  closeEditModal();
+}
+
+// ── Delete ──
+function openConfirmDelete(id){
+  deletingId=id;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+document.getElementById('btn-confirm-delete').addEventListener('click',()=>{
+  recipes=recipes.filter(r=>r.id!==deletingId);
+  saveRecipes(recipes);
+  renderRecipes();
+  document.getElementById('confirm-modal').classList.remove('open');
+});
+document.getElementById('btn-cancel-delete').addEventListener('click',()=>
+  document.getElementById('confirm-modal').classList.remove('open'));
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(ov=>
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('open')}));
+
+// ════════════════════════════════════
+//  INLINE TEXT EDITING (Admin)
+// ════════════════════════════════════
+let currentEditTarget=null;
+const inlineEditor=document.getElementById('inline-editor');
+
+function enableInlineEditing(){
+  document.querySelectorAll('[data-editable]').forEach(el=>{
+    el.style.cursor='pointer';
+    el.removeEventListener('click',handleEditableClick);
+    el.addEventListener('click',handleEditableClick);
+  });
+}
+
+function handleEditableClick(e){
+  if(!isAdminSession()) return;
+  e.stopPropagation();
+  const key=this.dataset.editable;
+  openInlineEditor(this,key);
+}
+
+function openInlineEditor(el,key){
+  currentEditTarget={el,key};
+  const rect=el.getBoundingClientRect();
+  const editor=inlineEditor;
+  const titles={
+    'hero-eyebrow':'Frase en cursiva',
+    'hero-title':'Título principal',
+    'hero-subtitle':'Subtítulo',
+    'hero-desc':'Descripción',
+    'philosophy-quote':'Cita filosófica',
+    'philosophy-attr':'Atribución'
+  };
+  document.getElementById('inline-editor-title').textContent=titles[key]||'Editar';
+  const content=document.getElementById('inline-editor-content');
+  content.value=el.textContent.trim();
+
+  // Position editor near element
+  let top=rect.bottom+window.scrollY+8;
+  let left=rect.left+window.scrollX;
+  if(left+440>window.innerWidth) left=window.innerWidth-450;
+  if(left<8) left=8;
+
+  editor.style.top=top+'px';
+  editor.style.left=left+'px';
+  editor.classList.add('open');
+  content.focus();
+  content.select();
+}
+
+document.getElementById('btn-inline-save').addEventListener('click',()=>{
+  if(!currentEditTarget) return;
+  const val=document.getElementById('inline-editor-content').value;
+  currentEditTarget.el.textContent=val;
+  // Save to page settings
+  const settings=loadPageSettings();
+  settings[currentEditTarget.key]=val;
+  savePageSettings(settings);
+  inlineEditor.classList.remove('open');
+  currentEditTarget=null;
+});
+document.getElementById('btn-inline-cancel').addEventListener('click',()=>{
+  inlineEditor.classList.remove('open');
+  currentEditTarget=null;
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') inlineEditor.classList.remove('open');
+});
+
+// ════════════════════════════════════
+//  PAGE EDIT MODAL (settings)
+// ════════════════════════════════════
+function openPageEditModal(){
+  const s=loadPageSettings();
+  document.getElementById('setting-title').value=s['hero-title']||document.getElementById('hero-title').textContent.trim();
+  document.getElementById('setting-subtitle').value=s['hero-subtitle']||document.getElementById('hero-subtitle').textContent.trim();
+  document.getElementById('setting-eyebrow').value=s['hero-eyebrow']||document.getElementById('hero-eyebrow').textContent.trim();
+  document.getElementById('setting-desc').value=s['hero-desc']||document.getElementById('hero-desc').textContent.trim();
+  document.getElementById('setting-quote').value=s['philosophy-quote']||document.getElementById('philosophy-quote').textContent.trim();
+  document.getElementById('page-edit-modal').classList.add('open');
+}
+
+document.getElementById('btn-save-page-settings').addEventListener('click',()=>{
+  const settings=loadPageSettings();
+  const fields=[
+    ['hero-title','setting-title'],
+    ['hero-subtitle','setting-subtitle'],
+    ['hero-eyebrow','setting-eyebrow'],
+    ['hero-desc','setting-desc'],
+    ['philosophy-quote','setting-quote'],
+  ];
+  fields.forEach(([key,inputId])=>{
+    const val=document.getElementById(inputId).value.trim();
+    if(val){
+      settings[key]=val;
+      const el=document.getElementById(key);
+      if(el) el.textContent=val;
+    }
+  });
+
+  // Logo upload
+  const logoFile=document.getElementById('setting-logo').files[0];
+  if(logoFile){
+    const reader=new FileReader();
+    reader.onload=e=>{
+      settings['hero-logo']=e.target.result;
+      applyLogoImage(e.target.result);
+      savePageSettings(settings);
+    };
+    reader.readAsDataURL(logoFile);
+  }else{
+    savePageSettings(settings);
+  }
+
+  document.getElementById('page-edit-modal').classList.remove('open');
+});
+
+function applyLogoImage(src){
+  const img=document.getElementById('hero-logo-img');
+  const placeholder=document.getElementById('hero-logo-placeholder');
+  img.src=src;
+  img.style.display='block';
+  placeholder.style.display='none';
+}
+
+// ════════════════════════════════════
+//  APPLY SAVED PAGE SETTINGS
+// ════════════════════════════════════
+function applyPageSettings(){
+  const s=loadPageSettings();
+  const textKeys=['hero-title','hero-subtitle','hero-eyebrow','hero-desc','philosophy-quote','philosophy-attr'];
+  textKeys.forEach(key=>{
+    if(s[key]){
+      const el=document.getElementById(key);
+      if(el) el.textContent=s[key];
+    }
+  });
+  if(s['hero-logo']) applyLogoImage(s['hero-logo']);
+}
+
+// ════════════════════════════════════
+//  INIT
+// ════════════════════════════════════
+applyPageSettings();
+if(isAdminSession()) activateAdmin();
+window.scrollTo(0,0);
+</script>
+</body>
+</html>
